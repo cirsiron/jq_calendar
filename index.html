@@ -7,13 +7,30 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="./index.css">
     <title>Document</title>
+    <style media="screen">
+    .calender {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 5px;
+        height: 24px;
+        line-height: 24px;
+        width: 230px;
+    }
+    .calender:focus {
+        outline: 0 none;
+        border: 1px solid #1abc9c;
+    }
+    </style>
     <script src=""></script>
     <script src="./lib/jquery-1.7.2.js"></script>
     <script src="./index.js"></script>
 </head>
 
 <body>
-    <div class=""></div>
+    <input class="calender" type="text" name="" value="">
 </body>
+<script charset="utf-8">
 
+calenderFn.init($("input"));
+</script>
 </html>
