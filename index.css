@@ -1,212 +1,250 @@
 .ui-calender-wrapper * {
-  font-family: 'PingFangSC-Light','PingFang SC','Segoe UI','Lucida Grande','NotoSansHans-Light','Microsoft YaHei', '\5FAE\8F6F\96C5\9ED1', STHeiti, 'WenQuanYi Micro Hei', SimSun, sans-serif;
+    font-family: 'PingFangSC-Light', 'PingFang SC', 'Segoe UI', 'Lucida Grande', 'NotoSansHans-Light', 'Microsoft YaHei', '\5FAE\8F6F\96C5\9ED1', STHeiti, 'WenQuanYi Micro Hei', SimSun, sans-serif;
 }
+
 .calender {
-  background: url("./img/cld-blue.png") no-repeat 5px 5px;
-  padding-left: 30px !important;
+    background: url("./img/cld-blue.png") no-repeat 5px 1px;
+    /*padding-left: 30px !important;*/
 }
+
 .ui-calender-wrapper {
-  width: 240px;
-  font-size: 16px;
-  color: #666;
-  box-shadow: 2px 2px 8px 2px rgba(128, 128, 128, 0.3);
-  border: 1px solid #ccc;
-  border-top: 0;
-  position: absolute;
+    width: 240px;
+    font-size: 16px;
+    color: #666;
+    box-shadow: 2px 2px 8px 2px rgba(128, 128, 128, 0.3);
+    border: 1px solid #ccc;
+    border-top: 0;
+    position: absolute;
+    z-index: 1;
+    background: #fff;
 }
+
 .ui-calender-title {
-  padding: 0 20px;
-  height: 50px;
-  line-height: 50px;
-  text-align: center;
-  background: #f0f0f0;
-  border-bottom: 1px solid #ccc;
-  font-weight: bold;
+    padding: 0 20px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    background: #f0f0f0;
+    border-bottom: 1px solid #ccc;
+    font-weight: bold;
 }
+
 .ui-calender-btn {
-  font-family: serif;
-  font-size: 20px;
-  height: 50px;
-  width: 20px;
-  line-height: 50px;
-  color: #00A1CB;
-  text-align: center;
-  cursor: pointer;
-  text-decoration: none;
+    font-family: serif;
+    font-size: 20px;
+    height: 50px;
+    width: 20px;
+    line-height: 50px;
+    color: #00A1CB;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
 }
+
 .ui-calender-prev {
-  float: left;
+    float: left;
 }
+
 .ui-calender-next {
-  float: right;
+    float: right;
 }
 
 .ui-calender-content>table {
-  width: 100%;
-  border-collapse: collapse;
+    width: 100%;
+    border-collapse: collapse;
 }
-.ui-calender-content>table th ,.ui-calender-content>table td{
+
+.ui-calender-content>table th,
+.ui-calender-content>table td {
     height: 30px;
     text-align: center;
 }
-.ui-calender-content>table th  {
-   font-size: 12px;
-   height: 40px;
-   line-height: 40px;
+
+.ui-calender-content>table th {
+    font-size: 12px;
+    height: 40px;
+    line-height: 40px;
 }
+
 .ui-calender-content>table td {
-  width: 14%;
-  border: 1px solid #f0f0f0;
-  vertical-align: middle;
-  font-size: 10px;
-  cursor: pointer;
+    width: 14%;
+    border: 1px solid #f0f0f0;
+    vertical-align: middle;
+    font-size: 10px;
+    cursor: pointer;
 }
+
 .ui-calender-wrapper li {
-  text-decoration: none;
-  display: block;
+    text-decoration: none;
+    display: block;
 }
+
 .ui-calender-foot {
-  height: 34px;
-  line-height: 34px;
-  overflow: hidden;
-  background: #f5f5f5;
+    height: 34px;
+    line-height: 34px;
+    overflow: hidden;
+    background: #f5f5f5;
 }
 
 .ui-calender-foot .ui-calender-foot-flex {
-  width: 50%;
-  float: left;
-  display: inline-block;
-  margin: 0;
-  padding-top: 3px;
-  overflow: hidden;
+    width: 36%;
+    float: left;
+    display: inline-block;
+    margin: 0;
+    padding-top: 3px;
+    overflow: hidden;
 }
+
+.ui-calender-foot-hms-wrapper {
+    width: 63% !important;
+}
+
 .ui-calender-foot .ui-calender-hms {
-  border: 1px #ddd solid;
-  background-color: #fff;
-  margin: 0px 5% 3px 0;
-  padding-left: 1px;
-  display: inline-block;
-  overflow: hidden;
+    width: 100%;
+    border: 1px #ddd solid;
+    background-color: #fff;
+    margin: 0px 5% 3px 0;
+    padding-left: 1px;
+    display: inline-block;
+    overflow: hidden;
 }
+
 .ui-calender-foot .ui-calender-foot-flex li {
-  width: 29px;
-  float: left;
-  text-align: center;
+    width: 36px;
+    float: left;
+    text-align: center;
 }
+
 .ui-calender-foot .ui-calender-foot-flex li input {
-  width: 100%;
-  float: left;
-  padding: 0;
-  border: none;
-  text-align: center;
-  display: block;
-  height: 26px;
-  line-height: 26px;
-  text-decoration: none;
-  outline: none;
-  -moz-outline: none;
-  font-size: 14px;
-  font-family: 'Avenir Next', Avenir, 'Helvetica Neue', Helvetica, 'Lantinghei SC', 'Hiragino Sans GB', 'Microsoft YaHei', '\5FAE\8F6F\96C5\9ED1', STHeiti, 'WenQuanYi Micro Hei', SimSun, sans-serif;
+    width: 100%;
+    float: left;
+    padding: 0;
+    border: none;
+    text-align: center;
+    display: block;
+    height: 26px;
+    line-height: 26px;
+    text-decoration: none;
+    outline: none;
+    -moz-outline: none;
+    font-size: 14px;
+    font-family: 'Avenir Next', Avenir, 'Helvetica Neue', Helvetica, 'Lantinghei SC', 'Hiragino Sans GB', 'Microsoft YaHei', '\5FAE\8F6F\96C5\9ED1', STHeiti, 'WenQuanYi Micro Hei', SimSun, sans-serif;
 }
+
 .ui-calender-foot .ui-calender-foot-flex i {
-  width: 12px;
-  float: left;
-  height: 26px;
-  line-height: 24px;
-  font-style: normal;
-  display: block;
-  text-align: center;
-  background: #f2f2f2;
+    width: 12px;
+    float: left;
+    height: 26px;
+    line-height: 24px;
+    font-style: normal;
+    display: block;
+    text-align: center;
+    background: #f2f2f2;
 }
+
 .ui-calender-foot .jedatebtn span {
-  width: 31%;
-  float: right;
-  margin: 0 1.1%;
-  background-color: #00A1CB;
-  color: #fff;
-  display: block;
-  height: 28px;
-  line-height: 28px;
-  border-radius: 4px;
-  text-align: center;
-  font-size: 12px;
-  cursor: pointer;
+    width: 45%;
+    float: right;
+    margin: 0 1.1%;
+    background-color: #00A1CB;
+    color: #fff;
+    display: block;
+    height: 28px;
+    line-height: 28px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 12px;
+    cursor: pointer;
 }
+
 .bg-blue {
-  color: #4DDBFF;
+    color: #4DDBFF;
 }
+
 .bg-current {
-  background: #4DDBFF;
-  color: #fff;
+    background: #4DDBFF;
+    color: #fff;
 }
+
 .bg-exceed {
-  color: #bbb;
+    color: #bbb;
 }
+
 .bg-exceed:hover {
-  cursor: not-allowed;
+    cursor: not-allowed;
 }
 
- .jedatetop {
-  width: 100%;
-  background: #00A1CB;
-  color: #fff;
-  overflow: hidden;
-  text-align: center;
+.jedatetop {
+    width: 100%;
+    background: #00A1CB;
+    color: #fff;
+    overflow: hidden;
+    text-align: center;
 }
+
 .jedateym {
-  float: left;
-  height: 40px;
-  line-height: 40px;
-}
- .jedateym .triangle {
-  margin: 0;
-  padding: 0;
-  font-style: normal;
-  font-family: serif;
-  font-size: 20px;
-  text-align: center;
-  cursor: pointer;
-  text-decoration: none;
-}
-.jedateym .prev, .jedatebox .jedateym .next {
-  width: 15%;
-  height: 40px;
-  float: left;
-  display: block;
-  text-align: center;
-  background-repeat: no-repeat;
-  background-position: center center;
+    float: left;
+    height: 40px;
+    line-height: 40px;
 }
 
-.ui-calender-wrapper em, .ui-calender-wrapper i {
-  height: 40px;
-  margin: 0;
-  padding: 0;
-  font-style: normal;
-  display: inline-block;
-  font-size: 16px;
+.jedateym .triangle {
+    margin: 0;
+    padding: 0;
+    font-style: normal;
+    font-family: serif;
+    font-size: 20px;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
 }
- .jedateym span {
-  width: 70%;
-  padding: 0;
-  float: left;
-  text-align: center;
-  text-overflow: ellipsis;
-  display: block;
+
+.jedateym .prev,
+.jedateym .next {
+    width: 15% !important;
+    height: 40px !important;
+    float: left;
+    display: block;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
- .jedateym .pndrop {
-  width: 14px;
-  height: 40px;
-  overflow: hidden;
-  display: inline-block;
-  position: relative;
-  vertical-align: top;
-  background-repeat: no-repeat;
-  background-position: center center;
+
+.ui-calender-wrapper em,
+.ui-calender-wrapper i {
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    font-style: normal;
+    display: inline-block;
+    font-size: 16px;
 }
-.jedateyy,.jedatemm {
-  /* cursor: pointer; */
+
+.jedateym span {
+    width: 70%;
+    padding: 0;
+    float: left;
+    text-align: center;
+    text-overflow: ellipsis;
+    display: block;
 }
+
+.jedateym .pndrop {
+    width: 14px;
+    height: 40px;
+    overflow: hidden;
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.jedateyy,
+.jedatemm {
+    /* cursor: pointer; */
+}
+
 .d-n {
-  display: none;
+    display: none;
 }

@@ -9,47 +9,51 @@
     <link rel="stylesheet" href="./index.css">
     <title>Document</title>
     <style media="screen">
-    .calender {
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        padding: 5px;
-        height: 24px;
-        line-height: 24px;
-        width: 230px;
-    }
-    .calender:focus {
-        outline: 0 none;
-        border: 1px solid #1abc9c;
-    }
+        .calender {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 5px;
+            height: 24px;
+            line-height: 24px;
+            width: 230px;
+        }
+        
+        .calender:focus {
+            outline: 0 none;
+            border: 1px solid #1abc9c;
+        }
     </style>
     <script src=""></script>
     <script src="./lib/jquery-1.7.2.js"></script>
-    <script src="./index.js"></script>
+    <script src="./datepicker.js"></script>
 </head>
 
 <body>
-    <input class="calender calender1" readonly type="text" name="" value="">
-    <input class="calender calender2" readonly type="text" name="" value="">
+    <div class="calender-container">
+        <input class="calender calender1" readonly type="text" name="" value="">
+    </div>
+    <div class="calender-container">
+        <input class="calender calender2" readonly type="text" name="" value="">
+    </div>
 </body>
 <script charset="utf-8">
+    new Calender({
+        $input: $(".calender1"),
+        format: 'yyyy-MM-dd hh:mm:ss',
+        onSelected: function(obj) {
 
-new Calender().init({
-    $input: $(".calender1"),
-    // format: 'yyyy-MM-dd hh:mm:ss',
-    onSelected: function(obj) {
+        }
+    }).init();
+    new Calender({
+        $input: $(".calender2"),
+        onSelected: function(obj) {
 
-    }
-});
-new Calender().init({
-    $input: $(".calender2"),
-    format: 'yyyy-MM-dd hh:mm:ss',
-    onSelected: function(obj) {
+        }
+    }).init();
 
-    }
-});
-
-// $("body").on("click change propertychange", "input[type=number]", function() {
-//     $(this).exceedZero();
-// })
+    // $("body").on("click change propertychange", "input[type=number]", function() {
+    //     $(this).exceedZero();
+    // })
 </script>
+
 </html>
