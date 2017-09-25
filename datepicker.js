@@ -1,6 +1,6 @@
 (function(global, factory) {
     if (typeof define === 'function' && define.amd) {
-        define('datepicker', ['jquery'], factory);// 由于已经设置了baseDir
+        define('dateSelect', ['jquery'], factory); // 由于已经设置了baseDir
     } else if (typeof exports === 'object') {
         module.exports = factory(require('jquery'));
     } else {
@@ -16,7 +16,7 @@
     // ---------------------- 纯函数的定义 B -----------------------------------------
     /**
      * 将小于10的值改为0x,比如 1 --> 01
-     * @param {num|str} val
+     * @param {String} val
      */
     function padding(val) {
         val = parseInt(val);
@@ -24,6 +24,18 @@
             val = val < 10 ? "0" + val : val;
         }
         return val;
+    }
+
+    function getUnitDate() {
+        return {
+            '分': 60,
+            '小时': 3600,
+            '天': 86400,
+            '周': 604800,
+            '月': 2592000,
+            '年': 31536000,
+            '岁': 31536000
+        };
     }
     // ---------------------- 纯函数的定义 E -----------------------------------------
 
@@ -44,26 +56,29 @@
             second: padding(second)
         }
     }
-    
+
     /**
      * 获取 页面上的日期数据集合
      * @param $this
      * @returns {object}
      */
-    var getPageDateData = function ($this) {
-        
+    var getPageDateData = function($this) {
+
         var $thisWrapper = $this.parents(".ui-calender-wrapper");
         
         var year = $thisWrapper.find(".jedateyear").text().replace(/年/g, "");
-        var day = $this.text();
+        var day = $this.text() || 1;
         var month = $thisWrapper.find(".jedatemonth").text().replace(/月/g, "");
-        if($this[0].nodeName === "SPAN") {
-           day = $thisWrapper.find("td.bg-current").text();
+        if($this.hasClass("bg-blue")) {
+            month--;
+        }
+        if ($this[0].nodeName === "SPAN") {
+            day = $thisWrapper.find("td.bg-current").text();
         }
         var hour = $thisWrapper.find(".ui-calender-hms input[data-hms=h]").val();
         var minute = $thisWrapper.find(".ui-calender-hms input[data-hms=m]").val();
         var second = $thisWrapper.find(".ui-calender-hms input[data-hms=s]").val();
-    
+
         $thisWrapper.fadeOut();
         return {
             year: year,
@@ -74,13 +89,57 @@
             second: second
         };
     };
+    function transAppropriateTime(secs) {
+        var timeNum = getUnitDate();
+        if(secs >= timeNum["年"]) {
+            return {
+                time: secs/timeNum["年"],
+                unit: "年"
+            }
+        }else if(secs >= timeNum["月"]) {
+            return {
+                time: secs/timeNum["月"],
+                unit: "月"
+            }
+        }else if(secs >= timeNum["周"]) {
+            return {
+                time: secs/timeNum["周"],
+                unit: "周"
+            }
+        }else if(secs >= timeNum["天"]) {
+            return {
+                time: secs/timeNum["天"],
+                unit: "天"
+            }
+        }else if(secs >= timeNum["时"]) {
+            return {
+                time: secs/timeNum["时"],
+                unit: "时"
+            }
+        }else if(secs >= timeNum["分"]) {
+            return {
+                time: secs/timeNum["分"],
+                unit: "分"
+            }
+        }else if(secs >= timeNum["秒"]) {
+            return {
+                time: secs/timeNum["秒"],
+                unit: "秒"
+            }
+        }else {
+            return {
+                time: 0,
+                unit: "天"
+            }
+        }
+    }
     // ---------------------- DOM的相关操作 B ----------------------------------------
     /**
      * 设置日期显示input框的值
      * @param _t
      * @param $this
      */
-    var setInputVal = function (_t, $this) {
+    var setInputVal = function(_t, $this) {
         var time = "";
         if (_t.format && /hh:mm:ss/g.test(_t.format)) {
             time = now.year + "-" + now.month + "-" + now.day + " " + now.hour + ":" + now.minute + ":" + now.second;
@@ -88,7 +147,7 @@
             time = now.year + "-" + now.month + "-" + now.day;
         }
         var $thisInput = $this.parents('.ui-calender-wrapper').prev(".calender");
-    
+
         $thisInput.val(time);
     };
 
@@ -98,13 +157,13 @@
     // ----------------------- jq 扩展 B --------------------------------------------
     //  校验input框为数字并且大于0
     $.fn.exceedZero = function() {
-            var $input = $(this);
-            var inputVal = $input.val();
-            if ($(this)[0].nodeName === "INPUT" && (!/\d+/g.test(inputVal) || parseInt(inputVal) <= 0)) {
-                $input.val(0);
-            }
+        var $input = $(this);
+        var inputVal = $input.val();
+        if ($(this)[0].nodeName === "INPUT" && (!/\d+/g.test(inputVal) || parseInt(inputVal) <= 0)) {
+            $input.val(0);
+        }
     };
-        
+
     // ----------------------- jq 扩展 E --------------------------------------------
 
     // --------------------------- 构造函数 B ------------------------------------
@@ -251,10 +310,10 @@
                 '</ul>' +
                 '</div>' +
                 '<div class="ui-calender-foot-flex jedatebtn">' +
-                '<span class="ui-calender-btn--ok">确定</span>' +
-                '<span class="ui-calender-btn--today">今天</span>'+
-            '</div>' +
-            '</div>';
+                // '<span class="ui-calender-btn--ok">确定</span>' +
+                '<span class="ui-calender-btn--today">今天</span>' +
+                '</div>' +
+                '</div>';
             return html;
         },
         renderByMonth: function(dire, $thisInput, now) {
@@ -269,7 +328,7 @@
                 month--;
             } else if (dire === "next") {
                 month++;
-            }else if(dire === "now" && now) {
+            } else if (dire === "now" && now) {
                 year = now.year;
                 month = now.month;
             }
@@ -279,8 +338,9 @@
             $wrapper.innerHTML = renderHtml;
             $input.next(".ui-calender-wrapper").remove();
             $input.after($($wrapper));
+
         },
-        renderByYear: function(dire,$thisInput) {
+        renderByYear: function(dire, $thisInput) {
             var $input = $thisInput;
             var year, month;
             var dateData = this.dateData;
@@ -303,8 +363,8 @@
         addEvent: function() {
             var _t = this;
             var $content = this.$input.parent() || $("body");
-            $content.off("click.calender");
-            $content.on("click", function (e) {
+            $content.off("click.calender propertychange.calender input.calender");
+            $content.on("click", function(e) {
                 e.stopPropagation();
             });
             $content.on("click.calender", ".ui-calender-mouth-prev", function() {
@@ -325,6 +385,8 @@
                 var $thisInput = $(this).parents('.ui-calender-wrapper').prev(".calender");
                 _t.renderByYear("next", $thisInput);
             });
+            
+            
             $content.on("click.calender", ".ui-calender-wrapper tbody td", function() {
                 var $this = $(this);
                 if ($this.hasClass("bg-exceed")) {
@@ -338,21 +400,21 @@
                 // _t.setCalenderInputVal($thisWrapper, timeObj);
                 typeof _t.onSelected === "function" && _t.onSelected(timeObj);
             });
+            // $content.on("click.calender", ".ui-calender-btn--today", function() {
+            //     var $this = $(this);
+            //     var now = getNowDate();
+            //     var $thisInput = $this.parents('.ui-calender-wrapper').prev(".calender");
+            //     _t.renderByMonth("now", $thisInput, now);
+            //
+            //     var tempArr = [now.hour, now.minute, now.second];
+            //     var $inputs = $this.parents(".ui-calender-foot").find(".ui-calender-hms li input");
+            //     for (var i = 0, arrLen = tempArr.length; i < arrLen; i++) {
+            //         var tempItem = tempArr[i];
+            //         $inputs.eq(i).val(tempItem);
+            //     }
+            //     $thisInput.parent().children(".ui-calender-wrapper").show();
+            // });
             $content.on("click.calender", ".ui-calender-btn--today", function() {
-                var $this = $(this);
-                var now = getNowDate();
-                var $thisInput = $this.parents('.ui-calender-wrapper').prev(".calender");
-                _t.renderByMonth("now", $thisInput, now);
-                
-                var tempArr = [now.hour, now.minute, now.second];
-                var $inputs = $this.parents(".ui-calender-foot").find(".ui-calender-hms li input");
-                for (var i = 0, arrLen = tempArr.length; i < arrLen; i++) {
-                    var tempItem = tempArr[i];
-                    $inputs.eq(i).val(tempItem);
-                }
-                $thisInput.parent().children(".ui-calender-wrapper").show();
-            });
-            $content.on("click.calender", ".ui-calender-btn--ok", function() {
                 var $this = $(this);
                 var $thisWrapper = $this.parents(".ui-calender-wrapper");
                 var timeObj = getPageDateData($this);
@@ -361,6 +423,45 @@
                 $thisWrapper.fadeOut();
                 typeof _t.onSelected === "function" && _t.onSelected(timeObj);
             });
+            // 时分秒限制
+            $content.on("click.calender propertychange.calender input.calender", "[data-hms=h]", function() {
+                var $input = $(this);
+                var inputVal = $input.val();
+                if ($input[0].nodeName === "INPUT" && (!/\d+/g.test(inputVal) || parseInt(inputVal) <= 0)) {
+                    $input.val("00");
+                } else if (parseInt(inputVal) > 24) {
+                    $input.val(24);
+                } else if (parseInt(inputVal) < 10) {
+                    $input.val("0" + parseInt(inputVal));
+                }
+            });
+            $content.on("click.calender propertychange.calender input.calender", "[data-hms=m]", function() {
+                var $input = $(this);
+                var inputVal = $input.val();
+                if ($input[0].nodeName === "INPUT" && (!/\d+/g.test(inputVal) || parseInt(inputVal) <= 0)) {
+                    $input.val("00");
+                } else if (parseInt(inputVal) >= 60) {
+                    $input.val(59);
+                } else if (parseInt(inputVal) < 10) {
+                    $input.val("0" + parseInt(inputVal));
+                }
+            });
+            $content.on("click.calender propertychange.calender input.calender", "[data-hms=s]", function() {
+                var $input = $(this);
+                var inputVal = $input.val();
+                if ($input[0].nodeName === "INPUT" && (!/\d+/g.test(inputVal) || parseInt(inputVal) <= 0)) {
+                    $input.val("00");
+                } else if (parseInt(inputVal) >= 60) {
+                    $input.val(59);
+                } else if (parseInt(inputVal) < 10) {
+                    $input.val("0" + parseInt(inputVal));
+                }
+            });
+            $content.on("mouseleave", function () {
+                var $this = $(this);
+                $this.find(".ui-calender-wrapper").fadeOut();
+            });
+
         },
         /**
          * 设置input时间框的值
@@ -388,8 +489,28 @@
         },
         init: function() {
             var $input = $(this.$input);
-            this.renderByMonth(null, $input);
+            var _t = this;
+
+            function transTime(time, unit) {
+                var objDateCount = getUnitDate();
+                var now = new Date();
+                var count = +now - time * (objDateCount[unit] * 1000);
+                return new Date(count);
+            }
             $input.on("click", function() {
+                var $this = $(this);
+                var $content = $this.parents(".date-icon-wrapper").prev(".date-content");
+                var time = $content.find(".data-content__switch--long>input.date-content__input").val();
+                var unit = $content.find(".data-content__switch--long>.select>input").val();
+                var newCurrent = transTime(time, unit);
+                _t.renderByMonth("now", $this, {
+                    "year": newCurrent.getFullYear(),
+                    "month": newCurrent.getMonth() + 1
+                });
+                // 隐藏其他的日期元素
+                var $currentForm = $this.parents(".symptom-form");
+                $currentForm.find(".ui-calender-wrapper").hide();
+                
                 var $currentWrapper = $(this).next(".ui-calender-wrapper");
                 $currentWrapper.eq(0).fadeIn();
             });
@@ -397,13 +518,14 @@
             this.addEvent();
         }
     };
-    window.Calender = Calender;
+    // window.Calender = Calender;
     // --------------------------- 构造函数 E ------------------------------------
 
     // -------------------------- 使用示例 B -----------------------------------
     // -------------------------- 使用示例 E -----------------------------------
 
     return {
-        Calender: Calender
+        Calender: Calender,
+        transAppropriateTime: transAppropriateTime
     };
 });
